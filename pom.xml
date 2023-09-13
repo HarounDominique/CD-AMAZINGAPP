@@ -18,6 +18,7 @@
 		<java.version>11</java.version>
 		<hsqldatabase.path>src/main/resources/db</hsqldatabase.path>
 		<maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
+		<exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -50,6 +51,11 @@
 			<artifactId>maven-antrun-plugin</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>exec-maven-plugin</artifactId>
+			<version>${exec-maven-plugin.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -79,7 +85,7 @@
 								</goals>
 								<configuration>
 									<target>
-										<available fileO="${hsqldatabase.path}/templateDB.script" property="database.exists"/>
+										<available file="${hsqldatabase.path}/templateDB.script" property="database.exists"/>
 										<echo message="${hsqldatabase.path}/templateDB.script"/>
 										<copy toFile="${hsqldatabase.path}/templateDB.script"
 											  file="${hsqldatabase.path}/templateDB.txt"/>
@@ -87,6 +93,22 @@
 								</configuration>
 							</execution>
 						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec-maven-plugin.version}</version>
+						<configuration>
+							<mainClass>org.hsqldb.Server</mainClass>
+							<arguments>
+								<argument>-port</argument>
+								<argument>9013</argument>
+								<argument>-database.0</argument>
+								<argument>${hsqldatabase.path}/templateDB</argument>
+								<argument>-dbname.0</argument>
+								<argument>templateDB</argument>
+							</arguments>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
