@@ -15,10 +15,10 @@ spring:
       hibernate:
         format_sql: false
         dialect: org.hibernate.dialect.HSQLDialect
-  logging:
-    level:
-      hibernate:
-        SQL: debug
-      type:
-        descriptor:
-          sql: trace
+logging:
+  level:
+    hibernate:
+      SQL: debug
+    type:
+      descriptor:
+        sql: trace
